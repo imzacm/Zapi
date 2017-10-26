@@ -1,0 +1,22 @@
+{
+  "name": "ztemplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha test",
+    "deps": "node_modules/.bin/dependency-check package.json --entry index.js --missing --unused --no-dev",
+    "update": "node_modules/.bin/ncu -u"
+  },
+  "author": "Zac McChesney",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "dependency-check": "^2.9.1",
+    "mocha": "^4.0.1",
+    "npm-check-updates": "^2.13.0"
+  },
+  "dependencies": {
+    "requirejs": "^2.3.5"
+  }
+}
