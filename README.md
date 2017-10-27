@@ -1,4 +1,7 @@
 # Zapi
+
+[![Build Status](https://travis-ci.org/imzacm/Zapi.svg?branch=master)](https://travis-ci.org/imzacm/Zapi)
+
 Create an API/Server without having to create the actual server yourself, all you have to worry about is the routes.
 ## Install
 ```sh
