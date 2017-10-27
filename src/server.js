@@ -9,6 +9,7 @@ const http = require('http')
  * @param {object} config - Override the default config for this server.
  * @param {integer} config.port - The port to start the server on.
  * @param {object} config.defaultRoute - The default values for a route if these values are not specified.
+ * @since 1.0.0
  */
 function Server (config) {
   let self = this
@@ -30,6 +31,11 @@ function Server (config) {
     POST: {}
   }
   this.server = null
+  this.middleware = [
+    (req, res, next) => {
+      next()
+    }
+  ]
 
  /**
  * The default error handler.
@@ -38,11 +44,71 @@ function Server (config) {
  * @param {object} err - Error object.
  * @param {object} res - The response object to send an error to.
  * @memberOf Server
+ * @since 1.0.0
  */
   this.errorHandler = function (err, res) {
-    res.end(JSON.stringify({
-      error: err
-    }))
+    //console.error(err)
+    try {
+      switch (err.code) {
+        case 404:
+          res.writeHead(404, { 'Content-Type': 'text/html' })
+          res.end('')
+          return
+
+        default:
+          res.end(JSON.stringify({
+            error: err
+          }))  
+      }
+    }
+    catch (e) {
+      res.end(JSON.stringify({
+        error: err
+      }))
+    }
+  }
+
+ /**
+ * Add middleware to use.
+ * @author Zac McChesney <imzacm@gmail.com>
+ * @name addMiddleware
+ * @param {function} mw - Middleware function.
+ * @memberOf Server
+ * @since 1.0.0
+ */
+  this.addMiddleware = function (mw) {
+    self.middleware.push(mw)
+  }
+
+ /**
+ * Runs the middleware.
+ * @author Zac McChesney <imzacm@gmail.com>
+ * @name runMiddleware
+ * @private
+ * @memberOf Server
+ * @since 1.0.0
+ */
+  this.runMiddleware = function (req, res) {
+    let mwRunning = []
+    self.middleware.forEach(mw => {
+      mwRunning.push(new Promise((resolve, rej) => {
+        mw(req, res, resolve)
+      }))
+    })
+    Promise.all(mwRunning)
+      .then(() => {
+        if (self.routes[req.method][req.url] !== undefined) {
+          self.routes[req.method][req.url](req, res)
+          return
+        }
+        let e = {
+          code: 404
+        }
+        self.errorHandler(e, res)
+      })
+      .catch(e => {
+        self.errorHandler(e, res)
+      })
   }
 
  /**
@@ -55,6 +121,8 @@ function Server (config) {
  * @param {function} r.handler - The handler for this route'.
  * @memberOf Server
  * @returns {Server} Current instance of Server.
+ * @since 1.0.0
+ * @version 1.0.3
  */
   this.addRoute = function (r) {
     let routeToAdd = {},
@@ -75,6 +143,7 @@ function Server (config) {
  * @param {string} path - The path to the route e.g. '/'.
  * @memberOf Server
  * @returns {Server} Current instance of Server.
+ * @since 1.0.0
  */
   this.removeRoute = function (method, path) {
     delete self.routes[method][path]
@@ -87,11 +156,12 @@ function Server (config) {
  * @name start
  * @memberOf Server
  * @returns {Server} Current instance of Server.
+ * @since 1.0.0
  */
   this.start = function () {
     self.server = http.createServer(function (req, res) {
       try {
-        self.routes[req.method][req.url](req, res)
+        self.runMiddleware(req, res)
       }
       catch (e) {
         self.errorHandler(e, res)
@@ -113,6 +183,7 @@ function Server (config) {
  * @name stop
  * @memberOf Server
  * @returns {Server} Current instance of Server.
+ * @since 1.0.0
  */
   this.stop = function () {
     self.server.close()

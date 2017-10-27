@@ -1,13 +1,13 @@
 {
   "name": "z-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
-  "main": "src/api/server.js",
+  "main": "src/server.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha test",
-    "deps": "node_modules/.bin/dependency-check package.json --entry src/api/server.js --missing --unused --no-dev",
+    "test": "node_modules/.bin/mocha test -t 10000",
+    "deps": "node_modules/.bin/dependency-check package.json --entry src/server.js --missing --unused --no-dev",
     "update": "node_modules/.bin/ncu -u",
-    "doc": "node_modules/.bin/jsdoc src/api/server.js",
+    "doc": "node_modules/.bin/jsdoc src/server.js",
     "precommit": "npm run deps && npm run doc",
     "prepush": "npm run test"
   },

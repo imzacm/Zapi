@@ -69,3 +69,12 @@ defaultRoute: {
   }
 }
 ```
+### Middleware
+Middleware is run in parallel for the best performance.
+To add middleware use the addMiddleware function.
+```js
+api.addMiddleware((req, res, next) => {
+  console.dir(req)
+  next()
+})
+```

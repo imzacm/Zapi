@@ -1,6 +1,6 @@
 const chai = require('chai'),
   expect = chai.expect,
-  server = require('../src/api/server'),
+  server = require('../src/server'),
   http = require('http')
 
 describe('Server', () => {

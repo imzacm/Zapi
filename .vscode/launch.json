@@ -4,14 +4,22 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Test",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "stopOnEntry": false,
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": null,
       "args": [
-        "test"
+        "test",
+        "-t10000"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Example",
+      "program": "${workspaceFolder}/example/index.js",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
