@@ -7,7 +7,8 @@
     "test": "node_modules/.bin/mocha test",
     "deps": "node_modules/.bin/dependency-check package.json --entry src/api/server.js --missing --unused --no-dev",
     "update": "node_modules/.bin/ncu -u",
-    "precommit": "npm run deps",
+    "doc": "node_modules/.bin/jsdoc src/api/server.js",
+    "precommit": "npm run deps && npm run doc",
     "prepush": "npm run test"
   },
   "author": "Zac McChesney",
@@ -26,6 +27,7 @@
     "chai": "^4.1.2",
     "dependency-check": "^2.9.1",
     "husky": "^0.14.3",
+    "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",
     "npm-check-updates": "^2.13.0"
   }
