@@ -1,8 +1,8 @@
 {
   "name": "z-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "src/api/server.js",
   "scripts": {
     "test": "node_modules/.bin/mocha test",
     "deps": "node_modules/.bin/dependency-check package.json --entry src/api/server.js --missing --unused --no-dev",
