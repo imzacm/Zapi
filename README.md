@@ -1,7 +1,7 @@
 # Zapi
 ## Install
 ```sh
-
+npm i --save z-api
 ```
 ## Usage
 ```js
