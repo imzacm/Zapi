@@ -1,4 +1,5 @@
 # Zapi
+Create an API/Server without having to create the actual server yourself, all you have to worry about is the routes.
 ## Install
 ```sh
 npm i --save z-api
