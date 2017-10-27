@@ -5,7 +5,7 @@
 ```
 ## Usage
 ```js
-const Zapi = require('Zapi'),
+const Zapi = require('z-api'),
   api = new Zapi()
 ```
 
